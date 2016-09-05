@@ -14,10 +14,11 @@ public class MagFile
 	int screenMode;
 	public int width;
 	public int height;
+	int memoLength;
 	int startFlagA;
 	int startFlagB;
 	int startPixel;
-	int sizePixel;
+	public int sizePixel;
 
 	/**
 	 * バイト配列の集約とヘッダ部の読み込み
@@ -35,6 +36,7 @@ public class MagFile
 		{
 		}
 
+		memoLength = offset;
 		offset++;
 
 		screenMode = bytes[offset + 3];
@@ -43,7 +45,25 @@ public class MagFile
 		startFlagA = offset + ByteBuffer.wrap(bytes, offset + 12, 4).order(ByteOrder.LITTLE_ENDIAN).getInt();
 		startFlagB = offset + ByteBuffer.wrap(bytes, offset + 16, 4).order(ByteOrder.LITTLE_ENDIAN).getInt();
 		startPixel = offset + ByteBuffer.wrap(bytes, offset + 24, 4).order(ByteOrder.LITTLE_ENDIAN).getInt();
-		sizePixel = offset + ByteBuffer.wrap(bytes, offset + 28, 4).order(ByteOrder.LITTLE_ENDIAN).getInt();
+		sizePixel = ByteBuffer.wrap(bytes, offset + 28, 4).order(ByteOrder.LITTLE_ENDIAN).getInt();
+	}
+
+	/**
+	 * フラグAのバイト数を取得
+	 * @return フラグAのバイト数
+	 */
+	public int getFlagALength()
+	{
+		return startFlagB - startFlagA;
+	}
+
+	/**
+	 * フラグBのバイト数を取得
+	 * @return フラグBのバイト数
+	 */
+	public int getFlagBLength()
+	{
+		return startPixel - startFlagB;
 	}
 
 	/**
@@ -52,16 +72,7 @@ public class MagFile
 	 */
 	public String getMemo() throws UnsupportedEncodingException
 	{
-		int offset = 0;
-
-		// メモの終端を表す$1Aまでスキップ
-		for ( ; bytes[offset] != 0x1a ; offset++)
-		{
-		}
-
-		String memo = new String(bytes, 0, offset, "sjis");
-
-		return memo;
+		return new String(bytes, 0, memoLength, "sjis");
 	}
 
 	/**
@@ -70,14 +81,8 @@ public class MagFile
 	 */
 	public byte [][] getPalette()
 	{
-		int offset = 0;
+		int offset = memoLength + 1;
 
-		// メモの終端を表す$1Aまでスキップ
-		for ( ; bytes[offset] != 0x1a ; offset++)
-		{
-		}
-
-		offset++;
 		int screenMode = bytes[offset + 3];
 
 		offset += 32;
@@ -111,25 +116,8 @@ public class MagFile
 	 * ビットマップ部を展開して取得
 	 * @return ビットマップ部
 	 */
-	public int [][] getBitmap()
+	public BitmapAndPixelCount getBitmap()
 	{
-		int offset = 0;
-
-		// メモの終端を表す$1Aまでスキップ
-		for ( ; bytes[offset] != 0x1a ; offset++)
-		{
-		}
-
-		offset++;
-
-		offset += 32;
-
-		if (screenMode == 0)
-		{
-			// 16色モード
-			offset += 48;
-		}
-
 		// 横１ラインごとのフラグ格納バイト数
 		int flagBytesPerLine = width / 4;
 
@@ -268,6 +256,23 @@ public class MagFile
 			}
 		}
 
-		return bitmap;
+		int pixelCount = 0;
+		int referCount = 0;
+		for (int i=0 ; i<height ; i++)
+		{
+			for (int j=0 ; j<flagBytesPerLine ; j++)
+			{
+				if (flags[flagBytesPerLine * i + j] == 0)
+				{
+					pixelCount++;
+				}
+				else
+				{
+					referCount++;
+				}
+			}
+		}
+
+		return new BitmapAndPixelCount(bitmap, pixelCount, referCount);
 	}
 }

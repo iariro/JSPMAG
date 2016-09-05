@@ -1,10 +1,7 @@
 package kumagai.mag.test;
 
 import java.io.*;
-
-import kumagai.mag.BitmapWriter;
-import kumagai.mag.MagFile;
-import kumagai.mag.SvgWriter;
+import kumagai.mag.*;
 
 /**
  * テストコード
@@ -56,12 +53,25 @@ public class MagList
 		MagFile magFile = new MagFile(bytes);
 
 		byte [][] palette = magFile.getPalette();
-		int [][] bitmap = magFile.getBitmap();
+		BitmapAndPixelCount bitmap = magFile.getBitmap();
+
+		int flagALength = magFile.getFlagALength();
+		int flagBLength = magFile.getFlagBLength();
+		int bodySize = flagALength + flagBLength + magFile.sizePixel;
+		int total = 49 + 32 + 48 + bodySize;
+		System.out.printf("flag A size=%d\n", flagALength);
+		System.out.printf("flag B size=%d\n", flagBLength);
+		System.out.printf("pixel size=%d\n", magFile.sizePixel, bitmap.pixelCount * 2);
+		System.out.printf("%d / %d = %f\n", bitmap.pixelCount, bitmap.pixelCount + bitmap.referCount, bitmap.getPixelCountRatio());
+		System.out.printf("total=%d\n", total);
+		System.out.printf("body size=%d\n", bodySize);
+		System.out.printf("BMP size=%d\n", magFile.width * magFile.height / 2);
+		System.out.printf("compress ratio=%f\n", (float)magFile.sizePixel * 100 / (float)((118 + magFile.width * magFile.height / 2)));
 
 		FileOutputStream stream = new FileOutputStream(filename + ".bmp");
 
 		BitmapWriter.writeBitmap16
-			(magFile.width, magFile.height, palette, bitmap, stream);
+			(magFile.width, magFile.height, palette, bitmap.bitmap, stream);
 
 		stream.close();
 		System.out.printf("%s written\n", filename);
@@ -84,7 +94,7 @@ public class MagList
 		MagFile magFile = new MagFile(bytes);
 
 		byte [][] palette = magFile.getPalette();
-		int [][] bitmap = magFile.getBitmap();
+		BitmapAndPixelCount bitmap = magFile.getBitmap();
 
 		int scale = 1;
 
@@ -94,7 +104,7 @@ public class MagList
 
 		String memo = magFile.getMemo();
 		SvgWriter.writeSvg
-			(filename, memo, magFile.width, magFile.height, palette, bitmap, scale, pw);
+			(filename, memo, magFile.width, magFile.height, palette, bitmap.bitmap, scale, pw);
 		pw.close();
 
 		System.out.printf("%s written\n", filename);

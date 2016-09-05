@@ -36,14 +36,14 @@ public class MagToBmpServlet
 		MagFile magFile = new MagFile(bytes);
 
 		byte [][] palette = magFile.getPalette();
-		int [][] bitmap = magFile.getBitmap();
+		BitmapAndPixelCount bitmap = magFile.getBitmap();
 
 		// 出力ストリームにBMP画像を出力
 		BitmapWriter.writeBitmap16(
 			magFile.width,
 			magFile.height,
 			palette,
-			bitmap,
+			bitmap.bitmap,
 			response.getOutputStream());
 	}
 }
