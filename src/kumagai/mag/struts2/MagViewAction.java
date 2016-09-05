@@ -1,6 +1,7 @@
 package kumagai.mag.struts2;
 
 import java.io.*;
+import java.util.*;
 import javax.servlet.*;
 import org.apache.struts2.*;
 import org.apache.struts2.convention.annotation.*;
@@ -24,14 +25,15 @@ public class MagViewAction
 	public int totalBytes;
 	public int bmpSize;
 	public String compressRatio2;
+	public ArrayList<String> docFileLines = new ArrayList<String>();
 
 	/**
 	 * MAGファイル表示アクション。
 	 * @return 処理結果
 	 */
 	@Action("magview")
-    public String execute()
-    	throws Exception
+	public String execute()
+		throws Exception
 	{
 		ServletContext context = ServletActionContext.getServletContext();
 
@@ -58,6 +60,31 @@ public class MagViewAction
 		totalBytes = bytes.length;
 		bmpSize = 54 + 64 + (width * height / 2);
 		compressRatio2 = String.format("%2.2f", (float)totalBytes * 100 / (float)bmpSize);
+
+		File docFile = new File(magFolder, filename.replace(".MAG", ".DOC"));
+
+		if (docFile.isFile())
+		{
+			docFileLines.add(String.format("%s", docFile.getName()));
+
+			BufferedReader reader =
+				new BufferedReader(
+					new InputStreamReader(
+						new FileInputStream(docFile), "sjis"));
+
+			String line;
+
+			while ((line = reader.readLine()) != null)
+			{
+				docFileLines.add(line);
+			}
+
+			reader.close();
+		}
+		else
+		{
+			docFileLines.add(String.format("%sなし", docFile.getName()));
+		}
 
 		return "success";
 	}
