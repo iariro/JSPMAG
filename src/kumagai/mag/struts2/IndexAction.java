@@ -5,6 +5,7 @@ import java.util.*;
 import javax.servlet.*;
 import org.apache.struts2.*;
 import org.apache.struts2.convention.annotation.*;
+import kumagai.mag.*;
 
 /**
  * ファイルリスト表示アクション。
@@ -15,25 +16,34 @@ import org.apache.struts2.convention.annotation.*;
 public class IndexAction
 {
 	public String folder;
-	public ArrayList<String> files = new ArrayList<String>();
+	public ArrayList<MagFileListEntry> files = new ArrayList<MagFileListEntry>();
 
 	/**
 	 * ファイルリスト表示アクション。
 	 * @return 処理結果
 	 */
 	@Action("index")
-    public String execute()
-    	throws Exception
+	public String execute()
+		throws Exception
 	{
 		ServletContext context = ServletActionContext.getServletContext();
 
 		folder = context.getInitParameter("MAGFolder");
 
-		for (String file : new File(folder).list())
+		for (String filename : new File(folder).list())
 		{
-			if (file.endsWith("MAG"))
+			if (filename.endsWith("MAG"))
 			{
-				files.add(file);
+				File file = new File(folder, filename);
+				byte [] bytes = new byte [(int)file.length()];
+				FileInputStream fileInputStream = new FileInputStream(file);
+				fileInputStream.read(bytes);
+				fileInputStream.close();
+
+				MagFile magFile = new MagFile(bytes);
+				String memo = magFile.getMemo();
+
+				files.add(new MagFileListEntry(filename, memo, magFile.screenMode));
 			}
 		}
 
