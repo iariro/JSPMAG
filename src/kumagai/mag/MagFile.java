@@ -11,13 +11,13 @@ public class MagFile
 {
 	private final byte [] bytes;
 
-	int screenMode;
+	public int screenMode;
 	public int width;
 	public int height;
-	int memoLength;
-	int startFlagA;
-	int startFlagB;
-	int startPixel;
+	private int memoLength;
+	private int startFlagA;
+	private int startFlagB;
+	private int startPixel;
 	public int sizePixel;
 
 	/**
@@ -72,7 +72,7 @@ public class MagFile
 	 */
 	public String getMemo() throws UnsupportedEncodingException
 	{
-		return new String(bytes, 0, memoLength, "sjis");
+		return new String(bytes, 8, memoLength - 8, "sjis");
 	}
 
 	/**
