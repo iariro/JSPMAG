@@ -25,6 +25,11 @@
 		<li>トータル圧縮率：<s:property value="totalBytes" />バイト／<s:property value="bmpSize" />バイト＝<s:property value="compressRatio2" />％
 		</ul>
 
+		<textarea readonly>
+<s:iterator value="docFileLines"><s:property />
+</s:iterator>
+		</textarea>
+
 		</div>
 		</div>
 		</div>
