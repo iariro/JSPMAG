@@ -19,7 +19,7 @@
 		<h1>path=<s:property value="folder" /></h1>
 
 		<s:form action="magview" theme="simple">
-			<s:select name="filename" list="files" size="10">
+			<s:select name="filename" list="files" listKey="filename" listValue="filenameAndMemo" size="20">
 			</s:select>
 			<s:submit />
 		</s:form>
