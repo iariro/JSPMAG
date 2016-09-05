@@ -17,13 +17,13 @@
 		<div class=day>
 
 		<h1>file=<s:property value="filename" /></h1>
+		<img src="/kumagai/magtobmp?filename=<s:property value="filename" />">
 		<ul>
 		<li>memo=<s:property value="memo" />
 		<li>width=<s:property value="width" /> height=<s:property value="height" />
 		<li>ピクセル圧縮率：フラグ全<s:property value="flagSize" />個中、新規ピクセルが<s:property value="pixelCount" />個＝<s:property value="compressRatio1" />％
 		<li>トータル圧縮率：<s:property value="totalBytes" />バイト／<s:property value="bmpSize" />バイト＝<s:property value="compressRatio2" />％
 		</ul>
-		<img src="/kumagai/magtobmp?filename=<s:property value="filename" />">
 
 		</div>
 		</div>
