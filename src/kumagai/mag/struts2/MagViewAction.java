@@ -18,6 +18,12 @@ public class MagViewAction
 	public String memo;
 	public int width;
 	public int height;
+	public int pixelCount;
+	public int flagSize;
+	public String compressRatio1;
+	public int totalBytes;
+	public int bmpSize;
+	public String compressRatio2;
 
 	/**
 	 * MAGファイル表示アクション。
@@ -43,6 +49,15 @@ public class MagViewAction
 		memo = magFile.getMemo();
 		width = magFile.width;
 		height = magFile.height;
+
+		BitmapAndPixelCount bitmap = magFile.getBitmap();
+
+		pixelCount = bitmap.pixelCount;
+		flagSize = bitmap.pixelCount + bitmap.referCount;
+		compressRatio1 = String.format("%2.2f", (float)pixelCount * 100 / (float)flagSize);
+		totalBytes = bytes.length;
+		bmpSize = 54 + 64 + (width * height / 2);
+		compressRatio2 = String.format("%2.2f", (float)totalBytes * 100 / (float)bmpSize);
 
 		return "success";
 	}
