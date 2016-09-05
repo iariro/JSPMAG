@@ -1,0 +1,70 @@
+<project default="deploy">
+
+	<!-- JSP MAG build.xml -->
+
+	<!--
+
+	<context-param>
+		<param-name>MAGFolder</param-name>
+		<param-value>C:\Users\kumagai\Pictures\temp\MAG</param-value>
+	</context-param>
+
+	-->
+
+	<property file="../../../../../build.properties" />
+
+	<target name="codeguess">
+		<taskdef name="codeguess" classname="kumagai.codeguess.CodeGuessTask" classpath="${JAVAPROJECTCHECKER_LIB}" />
+		<codeguess targetfilepath="src/">
+			<exclude extension="java" code="UTF-8" />
+		</codeguess>
+		<codeguess targetfilepath="html/">
+			<exclude extension="jsp" code="UTF-8" />
+		</codeguess>
+	</target>
+
+	<target name="zip">
+		<zip
+			destfile="${PDA_HOME}/Temp/JSPMAG.zip"
+			basedir=".."
+			includes="project/**"
+			excludes="project/bin/**" />
+	</target>
+
+	<target name="javadoc">
+		<javadoc
+			destdir="../javadoc"
+			sourcepath="src"
+			encoding="utf-8"
+			classpath="${XALAN_LIB};${KTOOL_LIB};${SERVLET_LIB};${STRUTS_LIB};${JUNIT_LIB}">
+		</javadoc>
+	</target>
+
+	<target name="deploy">
+		<copy todir="${TOMCAT_SITE_HOME}/mag/">
+			<fileset dir="html">
+				<include name="**/*.html" />
+				<include name="**/*.jsp" />
+				<include name="**/*.css" />
+				<include name="**/*.png" />
+			</fileset>
+		</copy>
+
+		<copy todir="${TOMCAT_SITE_HOME}/WEB-INF/classes">
+			<fileset dir="bin">
+				<include name="**/*.class" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="restart" depends="deploy">
+		<exec executable="sc">
+			<arg line="stop tomcat6" />
+		</exec>
+		<sleep seconds="3" />
+		<exec executable="sc">
+			<arg line="start tomcat6" />
+		</exec>
+	</target>
+
+</project>
