@@ -20,7 +20,7 @@ public class SvgWriter
 	 * @param writer 出力ファイル
 	 */
 	public static void writeSvg(String filename, String memo, int width, int height,
-			byte[][] palette, int[][] bitmap, int scale, PrintWriter writer)
+			byte[][] palette, byte[][] bitmap, int scale, PrintWriter writer)
 	{
 		memo = memo.replace("<", "&lt;");
 		memo = memo.replace(">", "&gt;");

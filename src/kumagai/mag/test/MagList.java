@@ -11,11 +11,11 @@ public class MagList
 {
 	/**
 	 * テストコード
-	 * @param args [0]=フォルダまたはファイルパス
+	 * @param args [0]=MAGファイルがあるフォルダまたはファイルパス [1]=出力パス
 	 */
 	public static void main(String[] args) throws IOException
 	{
-		if (args.length >= 1)
+		if (args.length >= 2)
 		{
 			File file = new File(args[0]);
 
@@ -31,7 +31,7 @@ public class MagList
 			}
 			else
 			{
-				readMagAndWriteBitmap(file);
+				readMagAndWriteBitmap(file, args[1]);
 			}
 		}
 	}
@@ -39,8 +39,10 @@ public class MagList
 	/**
 	 * MAG画像をBMPに変換
 	 * @param file MAGファイル
+	 * @param outPath 出力ファイルパス
 	 */
-	private static void readMagAndWriteBitmap(File file) throws IOException
+	private static void readMagAndWriteBitmap(File file, String outPath)
+		throws IOException
 	{
 		String filename = file.getName().split("\\.")[0];
 
@@ -67,7 +69,8 @@ public class MagList
 		System.out.printf("BMP size=%d\n", magFile.width * magFile.height / 2);
 		System.out.printf("compress ratio=%f\n", (float)magFile.sizePixel * 100 / (float)((118 + magFile.width * magFile.height / 2)));
 
-		FileOutputStream stream = new FileOutputStream(filename + ".bmp");
+		FileOutputStream stream =
+			new FileOutputStream(new File(outPath, filename + ".bmp"));
 
 		BitmapWriter.writeBitmap16
 			(magFile.width, magFile.height, palette, bitmap.bitmap, stream);

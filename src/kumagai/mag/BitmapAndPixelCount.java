@@ -6,7 +6,7 @@ package kumagai.mag;
  */
 public class BitmapAndPixelCount
 {
-	public final int [][] bitmap;
+	public final byte [][] bitmap;
 	public final int pixelCount;
 	public final int referCount;
 
@@ -16,7 +16,7 @@ public class BitmapAndPixelCount
 	 * @param pixelCount ピクセル新規参照カウント
 	 * @param referCount 既存ピクセル参照カウント
 	 */
-	BitmapAndPixelCount(int [][] bitmap, int pixelCount, int referCount)
+	BitmapAndPixelCount(byte [][] bitmap, int pixelCount, int referCount)
 	{
 		this.bitmap = bitmap;
 		this.pixelCount = pixelCount;

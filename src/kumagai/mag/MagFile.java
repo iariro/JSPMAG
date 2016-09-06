@@ -162,11 +162,11 @@ public class MagFile
 			}
 		}
 
-		int [][] bitmap = new int [width][];
+		byte [][] bitmap = new byte [width][];
 
 		for (int i=0 ; i<width ; i++)
 		{
-			bitmap[i] = new int [height];
+			bitmap[i] = new byte [height];
 		}
 
 		int [] indexPixel = new int [flagBytesPerLine * height];
@@ -232,16 +232,16 @@ public class MagFile
 			}
 
 			// １ピクセルを４ドットに展開
-			int [] paletteCodes = new int [4];
+			byte [] paletteCodes = new byte [4];
 
 			paletteCodes[0] =
-				(bytes[startPixel + indexPixel[i]] & 0xff) >> 4;
+				(byte)((bytes[startPixel + indexPixel[i]] & 0xff) >> 4);
 			paletteCodes[1] =
-				(bytes[startPixel + indexPixel[i]] & 0xff) & 0xf;
+				(byte)((bytes[startPixel + indexPixel[i]] & 0xff) & 0xf);
 			paletteCodes[2] =
-				(bytes[startPixel + indexPixel[i] + 1] & 0xff) >> 4;
+				(byte)((bytes[startPixel + indexPixel[i] + 1] & 0xff) >> 4);
 			paletteCodes[3] =
-				(bytes[startPixel + indexPixel[i] + 1] & 0xff) & 0xf;
+				(byte)((bytes[startPixel + indexPixel[i] + 1] & 0xff) & 0xf);
 
 			for (int j=0 ; j<4 ; j++)
 			{

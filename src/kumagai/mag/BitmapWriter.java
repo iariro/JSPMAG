@@ -18,7 +18,7 @@ public class BitmapWriter
 	 * @param stream 出力ストリーム
 	 */
 	static public void writeBitmap16(int width, int height, byte[][] palette,
-		int[][] bitmap, OutputStream stream)
+		byte[][] bitmap, OutputStream stream)
 		throws IOException
 	{
 		// Bitmapファイルフォーマット
