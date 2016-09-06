@@ -21,6 +21,7 @@
 		<s:form action="magview" theme="simple">
 			<s:select name="filename" list="files" listKey="filename" listValue="filenameAndMemo" size="20">
 			</s:select>
+			<br>
 			<s:submit />
 		</s:form>
 
