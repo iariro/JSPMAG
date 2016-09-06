@@ -23,7 +23,7 @@
 		<table>
 		<tr>
 		<s:iterator var="counter" begin="0" end="15" >
-		<th><s:property /></th>
+		<th style='border-bottom:none;'><s:property /></th>
 		</s:iterator>
 		</tr>
 		<tr>
