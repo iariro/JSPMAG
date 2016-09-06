@@ -12,7 +12,6 @@ public class MagList
 	/**
 	 * テストコード
 	 * @param args [0]=フォルダまたはファイルパス
-	 * @throws IOException
 	 */
 	public static void main(String[] args) throws IOException
 	{
@@ -39,7 +38,7 @@ public class MagList
 
 	/**
 	 * MAG画像をBMPに変換
-	 * @param file ファイル
+	 * @param file MAGファイル
 	 */
 	private static void readMagAndWriteBitmap(File file) throws IOException
 	{
@@ -79,8 +78,7 @@ public class MagList
 
 	/**
 	 * MAG画像をSVGファイルに変換
-	 * @param file
-	 * @throws IOException
+	 * @param file MAGファイル
 	 */
 	private static void readMagAndWriteSvg(File file) throws IOException
 	{
