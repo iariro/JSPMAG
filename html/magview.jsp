@@ -18,6 +18,22 @@
 
 		<h1>file=<s:property value="filename" /></h1>
 		<img src="/kumagai/magtobmp?filename=<s:property value="filename" />">
+
+		<h3>パレット</h3>
+		<table>
+		<tr>
+		<s:iterator var="counter" begin="0" end="15" >
+		<th><s:property /></th>
+		</s:iterator>
+		</tr>
+		<tr>
+		<s:iterator value="palette">
+		<td style='border-bottom:none; background-color:<s:property />; width:20; height:20;'></td>
+		</s:iterator>
+		</tr>
+		</table>
+
+		<h3>属性値</h3>
 		<ul>
 		<li>memo=<s:property value="memo" />
 		<li>width=<s:property value="width" /> height=<s:property value="height" />
@@ -25,6 +41,7 @@
 		<li>トータル圧縮率：<s:property value="totalBytes" />バイト／<s:property value="bmpSize" />バイト＝<s:property value="compressRatio2" />％
 		</ul>
 
+		<h3>添付文書</h3>
 		<textarea readonly>
 <s:iterator value="docFileLines"><s:property />
 </s:iterator>
