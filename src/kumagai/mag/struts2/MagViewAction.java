@@ -26,7 +26,7 @@ public class MagViewAction
 	public String bmpSize;
 	public String compressRatio2;
 	public ArrayList<String> palette = new ArrayList<String>();
-	public ArrayList<String> docFileLines = new ArrayList<String>();
+	public ArrayList<String> docFileLines;
 
 	/**
 	 * MAGファイル表示アクション。
@@ -91,12 +91,7 @@ public class MagViewAction
 					new InputStreamReader(
 						new FileInputStream(docFile), "sjis"));
 
-			String line;
-
-			while ((line = reader.readLine()) != null)
-			{
-				docFileLines.add(line);
-			}
+			docFileLines = new TextList(reader);
 
 			reader.close();
 		}
