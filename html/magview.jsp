@@ -20,17 +20,17 @@
 		<img src="/kumagai/magtobmp?filename=<s:property value="filename" />">
 
 		<h3>パレット</h3>
-		<table>
-		<tr>
-		<s:iterator var="counter" begin="0" end="15" >
-		<th style='border-bottom:none;'><s:property /></th>
-		</s:iterator>
-		</tr>
-		<tr>
-		<s:iterator value="palette">
-		<td style='border-bottom:none; background-color:<s:property />; width:20; height:20;'></td>
-		</s:iterator>
-		</tr>
+		<table style='border-collapse: collapse;'>
+			<tr>
+				<s:iterator var="counter" begin="0" end="15" >
+				<th style='border: 1px black solid;'><s:property /></th>
+				</s:iterator>
+			</tr>
+			<tr>
+				<s:iterator value="palette">
+				<td style='border: 1px black solid; background-color:<s:property />; width:20; height:20;'></td>
+				</s:iterator>
+			</tr>
 		</table>
 
 		<h3>属性値</h3>
